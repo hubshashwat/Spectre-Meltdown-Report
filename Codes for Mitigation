@@ -1,0 +1,89 @@
+[Source: Whitepaper
+Cache Speculation Side-channels]
+
+
+These examples show how we expect the barrier to be used in the assembly code executed on the processor.
+The CSDB instruction prevents an implementation from using hardware data value prediction to speculate the result
+of a conditional select.
+
+Taking the example shown previously:
+struct array {
+unsigned long length;
+unsigned char data[];
+};
+struct array *arr1 = ...; /* small array */
+struct array *arr2 = ...; /* array of size 0x400 */
+unsigned long untrusted_offset_from_user = ...;
+if (untrusted_offset_from_user < arr1->length) {
+unsigned char value;
+value = arr1->data[untrusted_offset_from_user];
+unsigned long index2 = ((value&1)*0x100)+0x200;
+if (index2 < arr2->length) {
+unsigned char value2 = arr2->data[index2];
+}
+}
+
+
+
+For AArch64, the equivalent code is as follows:
+
+
+LDR X1, [X2] ; X2 is apointer to arr1->length
+CMP X0, X1 ; X0 holds untrusted_offset_from_user
+BGE out_of_range
+LDRB W4, [X5,X0] ; X5 holds arr1->data base
+AND X4, X4, #1
+LSL X4, X4, #8
+ADD X4, X4, #0x200
+CMP X4, X6 ; X6 holds arr2->length
+BGE out_of_range
+LDRB X7, [X8, X4] ; X8 holds arr2->data base
+out_of_range
+
+The side-channel can be mitigated in this case by changing this code to be:
+LDR X1, [X2] ; X2 is a pointer to arr1->length
+CMP X0, X1 ; X0 holds untrusted_offset_from_user
+BGE out_of_range
+LDRB W4, [X5,X0] ; X5 holds arr1->data base
+CSEL X4, XZR, X4, GE
+CSDB ; this is the new barrier
+AND X4, X4, #1
+LSL X4, X4, #8
+ADD X4, X4, #0x200
+CMP X4, X6 ; X6 holds arr2->length
+BGE out_of_range
+LDRB X7, [X8, X4] ; X8 holds arr2->data base
+out_of_range
+
+
+
+For AArch32, the equivalent code is as follows:
+Original code:
+LDR R1, [R2] ; R2 is a pointer to arr1->length
+CMP R0, R1 ; R0 holds untrusted_offset_from_user
+BGE out_of_range
+LDRB R4, [R5,R0] ; R5 holds arr1->data base
+AND R4, R4, #1
+LSL R4, R4, #8
+ADD R4, R4, #0x200
+CMP R4, R6 ; R6 holds arr2->length
+BGE out_of_range
+LDRB R7, [R8, R4]; R8 holds arr2->data base
+out_of_range
+
+Code with the mitigation added:
+LDR R1, [R2] ; R2 is a pointer to arr1->length
+CMP R0, R1 ; R0 holds untrusted_offset_from_user
+BGE out_of_range
+LDRB R4, [R5,R0] ; R5 holds arr1->data base
+MOVGE R4, #0
+CSDB
+AND R4, R4, #1
+LSL R4, R4, #8
+ADD R4, R4, #0x200
+CMP R4, R6 ; R6 holds arr2->length
+BGE out_of_range
+LDRB R7, [R8, R4]; R8 holds arr2->data base
+out_of_range
+
+
