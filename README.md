@@ -1,5 +1,5 @@
 # Spectre-Meltdown-Report
-The project aims at analysing the long-term impact of Spectre Meltdown Vulnerability.
+The study/research report aims at analysing the long-term impact of Spectre Meltdown Vulnerability.
 
 
 The problem statements that we have analyzed in the project are:
