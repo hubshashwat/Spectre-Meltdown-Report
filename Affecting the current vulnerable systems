@@ -1,0 +1,17 @@
+
+
+Over the last couple of months, everyone in the IT industry has been keeping a close eye on a new class of security attacks that are taking advantage of a design flaw in modern computer processors. 
+
+Desktop, Laptop, and Cloud computers may be affected by Meltdown. Every Intel processor which implements out-of-order execution is potentially affected, which is effectively every processor since 1995 (except Intel Itanium and Intel Atom before 2013). At the moment, it is unclear whether ARM and AMD processors are also affected by Meltdown.
+
+As far as Spectre is concerned, almost every system is affected by it- Desktops, Laptops, Cloud Servers, as well as Smartphones.
+Well, if you are running any of the modern processors no matter if they are made by Intel, AMD or ARM or what device you are using them on, you are vulnerable to Spectre.
+
+On the other hand, if you are running Intel chips that were manufactured since 1995, you are vulnerable. But there is an exception of Itanium and Atom chips that were made before 2013.
+
+Hardware-based attack – The vulnerability is in the hardware, which creates certain challenges; these can’t simply be fixed with a patch. Various software vendors (including Citrix) have been working on software mitigations for this hardware issue. 
+
+Invisible vulnerability – These vulnerabilities are using a side-channel attack. It’s an attack (or rather data extraction) that is using information from physical implementation of computer systems, rather than software bugs. In this specific example, it’s a timing-based data extraction (data from cache is returned faster than non-cached data). Meltdown/Spectre are using this technique, which makes them very hard to detect using traditional tools. 
+
+Performance hit – While we have seen various benchmarks and preliminary reports, it should be noted that these reports have limited value because the situation has not yet stablilized and patches are still being developed and updated. The first generation of hotfixes are addressing the outstanding security issues and might not be as effective as they could from a performance perspective. Once the security threat is mitigated, we are probably going to see more optimized patches. It is also important to understand that since there are many variables involved, each environment and workload is going to see different results. 
+
