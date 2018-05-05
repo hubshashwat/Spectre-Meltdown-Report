@@ -1,0 +1,21 @@
+The initial testing on mobile devices indicates that any performance impact from Meltdown will be less than one percent for some use cases and non-existent in others,”
+
+For Arm’s affected processors, software updates, including operating system kernel-level mitigation releases, are already in the works.
+
+The industry is already in the implementation stage with respect to deploying software mitigation options,. The software mitigation options have been made available to operating system vendors, and original equipment manufacturers (OEM) and the deployment is being managed by them.
+
+Arm has not received feedback from end-customers but from their network of silicon and software partners. Current advice to customers and users is that if they are concerned their systems are exposed, they should immediately engage with their OEM or solution provider to determine if they are vulnerable and then understand how to protect their systems.
+
+They argue that even though countermeasures have and are being implemented, there is currently no way to know whether a particular code construction is, or is not, safe across today’s processors – and future designs. For example, mitigations for Meltdown do not work against Spectre attacks.
+
+Long-term solutions will require that instruction set architectures be updated to include clear guidance about the security properties of the processor, and CPU implementations will need to be updated to conform,” according to the researchers.
+The problem is that compilers, device drivers, operating systems, processors, etc. have all evolved multiple layers of complexity that introduce security risks. 
+
+Future designs, in many cases, will need alternative implementations with security front-of-mind. Computational performance may have to take a back seat.
+
+Future Arm architectures, processor cores and designs will address these security exploits. Arm is already working together with Intel and AMD to release mitigations. 
+
+Any successful partnership will require the exploration of different ideas and approaches for the industry to find better solutions. 
+However, in the case of Spectre, it’s important to understand that it’s not just a hardware issue and [it] will require an ongoing discipline in the design of secure systems which needs to be addressed through both software and hardware.
+
+These problems are here for the long term until the next generation of silicon processors hit the market. In the end, one of the original teams that found these security vulnerabilities says it best on their website: As it is not easy to fix, it will haunt us for quite some time.
